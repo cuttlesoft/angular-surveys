@@ -69,6 +69,7 @@ function buildModuleStream(destPrefix, moduleName) {
 
     var bootstrapTemplates = buildTemplates(tmpDir+'/templates/bootstrap/', moduleName, 'dist', destPrefix+'-bootstrap');
     var materialTemplates = buildTemplates(tmpDir+'/templates/material/', moduleName, 'dist', destPrefix+'-material');
+    var ionicTemplates = buildTemplates(tmpDir+'/templates/ionic/', moduleName, 'dist', destPrefix+'-ionic');
 
     var module =  gulp.src(tmpDir + '/**/*.js')
         .pipe(plugins.plumber({ errorHandler: onError }))
