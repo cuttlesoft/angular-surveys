@@ -47,8 +47,6 @@ function buildTemp(src, moduleName) {
 
     var copy = gulp.src(src + '**/*').pipe(gulp.dest(tmpDir));
 
-
-
     return merge(copy);
 }
 
@@ -87,7 +85,7 @@ function buildModuleStream(destPrefix, moduleName) {
 
 
 
-    return merge(module, bootstrapTemplates, materialTemplates);
+    return merge(module, bootstrapTemplates, materialTemplates, ionicTemplates);
 }
 
 gulp.task('test', function (done) {
