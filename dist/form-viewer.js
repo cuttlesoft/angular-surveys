@@ -370,8 +370,37 @@ angular.module('mwFormViewer').factory("FormQuestionId", function(){
         controllerAs: 'ctrl',
         bindToController: true,
         controller: ["$timeout", "FormQuestionId", function($timeout,FormQuestionId){
-          console.log(this);
+
             var ctrl = this;
+
+            /*
+            the following classes can be applied to text and textarea input types
+
+            .labelClasses can add/remove item-stacked-label, this moves the label above the input
+            If only item-input is used, this makes it an inline label.
+            Floating labels are not functional at this time don't use them.
+
+            .divClasses can add list-inset if you want an inset form box.
+
+            ///
+            checkbox classes can be checkbox-positive, etc.
+
+          
+            */
+            ctrl.formClasses = {
+              text:
+                {
+                  labelClasses: 'item item-input',
+                  divClasses: 'list'
+                },
+                textarea:
+                  {
+                    labelClasses: 'item item-input item-stacked-label',
+                    divClasses: 'list'
+                  },
+              checkbox: 'checkbox-assertive'
+            };
+
             ctrl.id = FormQuestionId.next();
 
             if(ctrl.question.type=='radio'){
@@ -391,8 +420,6 @@ angular.module('mwFormViewer').factory("FormQuestionId", function(){
                 if(ctrl.questionResponse.other){
                     ctrl.isOtherAnswer=true;
                 }
-              console.log('questionResp1',  ctrl.questionResponse);
-              console.log('selected answers', ctrl.questionResponse.selectedAnswers);
 
 
             }else if(ctrl.question.type=='grid'){
@@ -449,7 +476,7 @@ angular.module('mwFormViewer').factory("FormQuestionId", function(){
 
 
             ctrl.toggleSelectedAnswer = function(answer){
-              console.log('questionResp in toggle',  ctrl.questionResponse.selectedAnswers);
+
                 if (ctrl.questionResponse.selectedAnswers.indexOf(answer.id) === -1) {
                     ctrl.questionResponse.selectedAnswers.push(answer.id);
                 } else {
@@ -464,7 +491,6 @@ angular.module('mwFormViewer').factory("FormQuestionId", function(){
                 if(ctrl.onResponseChanged){
                     ctrl.onResponseChanged();
                 }
-                console.log('questionResp3',  ctrl.questionResponse);
 
             }
 
