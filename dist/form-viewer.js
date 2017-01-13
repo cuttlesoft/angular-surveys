@@ -370,6 +370,7 @@ angular.module('mwFormViewer').factory("FormQuestionId", function(){
         controllerAs: 'ctrl',
         bindToController: true,
         controller: ["$timeout", "FormQuestionId", function($timeout,FormQuestionId){
+          console.log(this);
             var ctrl = this;
             ctrl.id = FormQuestionId.next();
 
@@ -390,6 +391,8 @@ angular.module('mwFormViewer').factory("FormQuestionId", function(){
                 if(ctrl.questionResponse.other){
                     ctrl.isOtherAnswer=true;
                 }
+              console.log('questionResp1',  ctrl.questionResponse);
+              console.log('selected answers', ctrl.questionResponse.selectedAnswers);
 
 
             }else if(ctrl.question.type=='grid'){
@@ -418,9 +421,7 @@ angular.module('mwFormViewer').factory("FormQuestionId", function(){
 
                 ctrl.computeDivisionSum();
 
-
             }
-
 
 
             ctrl.isAnswerSelected=false;
@@ -429,10 +430,9 @@ angular.module('mwFormViewer').factory("FormQuestionId", function(){
                 delete ctrl.questionResponse.other;
                 ctrl.isOtherAnswer=false;
                 ctrl.answerChanged();
-
             };
+
             ctrl.otherAnswerRadioChanged= function(){
-                console.log('otherAnswerRadioChanged');
                 if(ctrl.isOtherAnswer){
                     ctrl.questionResponse.selectedAnswer=null;
                 }
@@ -443,12 +443,13 @@ angular.module('mwFormViewer').factory("FormQuestionId", function(){
                 if(!ctrl.isOtherAnswer){
                     delete ctrl.questionResponse.other;
                 }
-                ctrl.selectedAnswer = ctrl.questionResponse.selectedAnswers.length||ctrl.isOtherAnswer ? true:null ;
+                ctrl.selectedAnswer = ctrl.questionResponse.selectedAnswers.length || ctrl.isOtherAnswer ? true:null ;
                 ctrl.answerChanged();
             };
 
 
-            ctrl.toggleSelectedAnswer= function(answer){
+            ctrl.toggleSelectedAnswer = function(answer){
+              console.log('questionResp in toggle',  ctrl.questionResponse.selectedAnswers);
                 if (ctrl.questionResponse.selectedAnswers.indexOf(answer.id) === -1) {
                     ctrl.questionResponse.selectedAnswers.push(answer.id);
                 } else {
@@ -463,6 +464,8 @@ angular.module('mwFormViewer').factory("FormQuestionId", function(){
                 if(ctrl.onResponseChanged){
                     ctrl.onResponseChanged();
                 }
+                console.log('questionResp3',  ctrl.questionResponse);
+
             }
 
         }],
