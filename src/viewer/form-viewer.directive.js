@@ -6,6 +6,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', function () {
         restrict: 'AE',
         scope: {
             formData: '=',
+            formClasses: '=',
             responseData: '=',
             templateData: '=?',
             readOnly: '=?',
@@ -36,7 +37,6 @@ angular.module('mwFormViewer').directive('mwFormViewer', function () {
             ctrl.formData.pages.forEach(function(page){
                 ctrl.pageIdToPage[page.id]=page;
             });
-
 
             ctrl.buttons={
                 prevPage: {

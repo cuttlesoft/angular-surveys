@@ -17,6 +17,7 @@ angular.module('mwFormViewer').factory("FormQuestionId", function(){
         scope: {
             question: '=',
             questionResponse: '=',
+            formClasses: '=',
             readOnly: '=?',
             options: '=?',
             onResponseChanged: '&?'
@@ -27,34 +28,6 @@ angular.module('mwFormViewer').factory("FormQuestionId", function(){
         controller: function($timeout,FormQuestionId){
 
             var ctrl = this;
-
-            /*
-            the following classes can be applied to text and textarea input types
-
-            .labelClasses can add/remove item-stacked-label, this moves the label above the input
-            If only item-input is used, this makes it an inline label.
-            Floating labels are not functional at this time don't use them.
-
-            .divClasses can add list-inset if you want an inset form box.
-
-            ///
-            checkbox classes can be checkbox-positive, etc.
-
-          
-            */
-            ctrl.formClasses = {
-              text:
-                {
-                  labelClasses: 'item item-input',
-                  divClasses: 'list'
-                },
-                textarea:
-                  {
-                    labelClasses: 'item item-input item-stacked-label',
-                    divClasses: 'list'
-                  },
-              checkbox: 'checkbox-assertive'
-            };
 
             ctrl.id = FormQuestionId.next();
 
