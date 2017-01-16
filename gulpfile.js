@@ -47,8 +47,6 @@ function buildTemp(src, moduleName) {
 
     var copy = gulp.src(src + '**/*').pipe(gulp.dest(tmpDir));
 
-
-
     return merge(copy);
 }
 
@@ -69,6 +67,7 @@ function buildModuleStream(destPrefix, moduleName) {
 
     var bootstrapTemplates = buildTemplates(tmpDir+'/templates/bootstrap/', moduleName, 'dist', destPrefix+'-bootstrap');
     var materialTemplates = buildTemplates(tmpDir+'/templates/material/', moduleName, 'dist', destPrefix+'-material');
+    var ionicTemplates = buildTemplates(tmpDir+'/templates/ionic/', moduleName, 'dist', destPrefix+'-ionic');
 
     var module =  gulp.src(tmpDir + '/**/*.js')
         .pipe(plugins.plumber({ errorHandler: onError }))
@@ -86,7 +85,7 @@ function buildModuleStream(destPrefix, moduleName) {
 
 
 
-    return merge(module, bootstrapTemplates, materialTemplates);
+    return merge(module, bootstrapTemplates, materialTemplates, ionicTemplates);
 }
 
 gulp.task('test', function (done) {

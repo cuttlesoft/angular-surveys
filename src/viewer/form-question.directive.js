@@ -17,6 +17,7 @@ angular.module('mwFormViewer').factory("FormQuestionId", function(){
         scope: {
             question: '=',
             questionResponse: '=',
+            formClasses: '=',
             readOnly: '=?',
             options: '=?',
             onResponseChanged: '&?'
@@ -25,7 +26,9 @@ angular.module('mwFormViewer').factory("FormQuestionId", function(){
         controllerAs: 'ctrl',
         bindToController: true,
         controller: function($timeout,FormQuestionId){
+
             var ctrl = this;
+
             ctrl.id = FormQuestionId.next();
 
             if(ctrl.question.type=='radio'){
@@ -73,9 +76,7 @@ angular.module('mwFormViewer').factory("FormQuestionId", function(){
 
                 ctrl.computeDivisionSum();
 
-
             }
-
 
 
             ctrl.isAnswerSelected=false;
@@ -84,10 +85,9 @@ angular.module('mwFormViewer').factory("FormQuestionId", function(){
                 delete ctrl.questionResponse.other;
                 ctrl.isOtherAnswer=false;
                 ctrl.answerChanged();
-
             };
+
             ctrl.otherAnswerRadioChanged= function(){
-                console.log('otherAnswerRadioChanged');
                 if(ctrl.isOtherAnswer){
                     ctrl.questionResponse.selectedAnswer=null;
                 }
@@ -98,12 +98,13 @@ angular.module('mwFormViewer').factory("FormQuestionId", function(){
                 if(!ctrl.isOtherAnswer){
                     delete ctrl.questionResponse.other;
                 }
-                ctrl.selectedAnswer = ctrl.questionResponse.selectedAnswers.length||ctrl.isOtherAnswer ? true:null ;
+                ctrl.selectedAnswer = ctrl.questionResponse.selectedAnswers.length || ctrl.isOtherAnswer ? true:null ;
                 ctrl.answerChanged();
             };
 
 
-            ctrl.toggleSelectedAnswer= function(answer){
+            ctrl.toggleSelectedAnswer = function(answer){
+
                 if (ctrl.questionResponse.selectedAnswers.indexOf(answer.id) === -1) {
                     ctrl.questionResponse.selectedAnswers.push(answer.id);
                 } else {
@@ -118,6 +119,7 @@ angular.module('mwFormViewer').factory("FormQuestionId", function(){
                 if(ctrl.onResponseChanged){
                     ctrl.onResponseChanged();
                 }
+
             }
 
         },
