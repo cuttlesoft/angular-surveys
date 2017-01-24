@@ -22,11 +22,11 @@
         </div>
         <div ng-switch-when="radio">
           <div class="mw-question-text">{{::ctrl.print(ctrl.question.text)}}<span ng-if="ctrl.question.required">*</span></div>
-            <div class="list">
+            <ion-list>
                 <ion-radio ng-repeat="answer in ctrl.question.offeredAnswers" ng-model="ctrl.questionResponse.selectedAnswer" ng-value="answer.id" name="answer-for-question-{{ctrl.question.id}}" ng-change="ctrl.selectedAnswerChanged()" ng-required="ctrl.question.required &&!ctrl.isOtherAnswer" ng-disabled="ctrl.readOnly">
                   {{::ctrl.print(answer.value)}}
                 </ion-radio>
-            </div>
+            </ion-list>
         </div>
         <div ng-switch-when="checkbox">
           <div class="mw-question-text">{{::ctrl.print(ctrl.question.text)}}<span ng-if="ctrl.question.required">*</span></div>

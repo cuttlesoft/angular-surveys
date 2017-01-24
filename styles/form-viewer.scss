@@ -18,7 +18,6 @@
             }
         }
 
-
         .mw-priority-list{
             .beingDragged {
                 height: 24px;
@@ -87,6 +86,47 @@
     .ng-invalid.ng-dirty {
         border-color: red;
         outline-color: red;
+    }
+
+    // styling for ionic material
+    .mw-question-answers {
+        .list, .range {
+        margin: 5px 0;
+        }
+
+        .item {
+            &.item-input, &.item-radio {
+            padding: 0;
+            border: none;
+            }
+        }
+
+        input {
+            border-bottom: 1px solid #ccc;
+            padding: 5px;
+        }
+
+        textarea {
+            border: 1px solid #ccc;
+            padding: 5px;
+        }
+
+        .radio-content {
+            border: 1px solid #ccc;
+        }
+
+        .mw-question-text {
+            margin: 10px 0;
+            font-size: 1.2em;
+        }
+
+        .item-checkbox {
+            border: 1px solid #ccc;
+        }
+
+        .range input {
+            border: none;
+        }
     }
 }
 
