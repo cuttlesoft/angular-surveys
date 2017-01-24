@@ -33,6 +33,7 @@ You'll need to run the project in two terminal windows. One is for the Ionic pro
 
 * run ionic serve in the Ionic project folder
 * run gulp watch in the lib-dev folder
+* the ng-submit on the that calls the ctrl.saveResponse() function references a submit function that needs to be added to the top level app controller.
 
 ###Using the form viewer in development
 
