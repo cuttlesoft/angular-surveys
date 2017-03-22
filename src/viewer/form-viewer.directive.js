@@ -13,7 +13,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', function () {
             options: '=?',
             formStatus: '=?', //wrapper for internal angular form object
             onSubmit: '&',
-            api: '=?'
+            api: '=?' // api is the form data object
 
         },
         templateUrl: 'mw-form-viewer.html',
@@ -52,23 +52,23 @@ angular.module('mwFormViewer').directive('mwFormViewer', function () {
                     disabled: false
                 }
             };
+            // moving this functionality to the top level controller in base.featured.controllers.js
+            // ctrl.submitForm = function(){
+            //     ctrl.formSubmitted=true;
+            //     ctrl.submitStatus='IN_PROGRESS';
 
-            ctrl.submitForm = function(){
-                ctrl.formSubmitted=true;
-                ctrl.submitStatus='IN_PROGRESS';
+            //     // ctrl.setCurrentPage(null);
 
-                ctrl.setCurrentPage(null);
-
-
-                var resultPromise = ctrl.onSubmit();
-                resultPromise.then(function(){
-                    ctrl.submitStatus='SUCCESS';
-                }).catch(function(){
-                    ctrl.submitStatus='ERROR';
-                });
+            //     var resultPromise = ctrl.onSubmit();
+            //     resultPromise.then(function(){
+            //         ctrl.submitStatus='SUCCESS';
+            //         $ionicHistory.goBack(-1);
+            //     }).catch(function(){
+            //         ctrl.submitStatus='ERROR';
+            //     });
 
 
-            };
+            // };
 
             ctrl.setCurrentPage = function (page) {
                 ctrl.currentPage = page;
@@ -209,7 +209,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', function () {
                     ctrl.currentPage=null;
                     $timeout(ctrl.resetPages, 0);
 
-                }
+                };
             }
 
             function sortPagesByNumber() {
@@ -223,7 +223,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', function () {
                     return $interpolate(input)(ctrl.templateData);
                 }
                 return input;
-            }
+            };
 
         },
         link: function (scope, ele, attrs){

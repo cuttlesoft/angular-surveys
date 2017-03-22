@@ -4,16 +4,16 @@
     </div> -->
     <div class="mw-question-answers" ng-switch="ctrl.question.type">
         <div ng-switch-when="text">
-          <div class="{{ctrl.formClasses.text.divClasses}}">
-            <label class="{{ctrl.formClasses.text.labelClasses}}">
+          <div class="list">
+            <label class="item item-input">
               <span class="input-label">{{::ctrl.print(ctrl.question.text)}}<span ng-if="ctrl.question.required">*</span></span>
               <input type="text" ng-model="ctrl.questionResponse.answer" ng-required="ctrl.question.required" ng-readonly="ctrl.readOnly">
             </label>
           </div>
         </div>
         <div ng-switch-when="textarea">
-          <div class="{{ctrl.formClasses.textarea.divClasses}}">
-            <label class="{{ctrl.formClasses.textarea.labelClasses}}">
+          <div class="list">
+            <label class="item item-input item-stacked-label">
               <span class="input-label">{{::ctrl.print(ctrl.question.text)}}<span ng-if="ctrl.question.required">*</span></span>
               <textarea msd-elastic ng-model="ctrl.questionResponse.answer"  placeholder="{{mwForm.question.preview.textarea}}" ng-required="ctrl.question.required" ng-readonly="ctrl.readOnly">
               </textarea>
@@ -22,16 +22,16 @@
         </div>
         <div ng-switch-when="radio">
           <div class="mw-question-text">{{::ctrl.print(ctrl.question.text)}}<span ng-if="ctrl.question.required">*</span></div>
-            <div class="list">
+            <ion-list>
                 <ion-radio ng-repeat="answer in ctrl.question.offeredAnswers" ng-model="ctrl.questionResponse.selectedAnswer" ng-value="answer.id" name="answer-for-question-{{ctrl.question.id}}" ng-change="ctrl.selectedAnswerChanged()" ng-required="ctrl.question.required &&!ctrl.isOtherAnswer" ng-disabled="ctrl.readOnly">
                   {{::ctrl.print(answer.value)}}
                 </ion-radio>
-            </div>
+            </ion-list>
         </div>
         <div ng-switch-when="checkbox">
           <div class="mw-question-text">{{::ctrl.print(ctrl.question.text)}}<span ng-if="ctrl.question.required">*</span></div>
             <div class="list">
-              <ion-checkbox class="{{ctrl.formClasses.checkbox}}" ng-repeat="answer in ::ctrl.question.offeredAnswers"
+              <ion-checkbox ng-repeat="answer in ::ctrl.question.offeredAnswers"
                name="answer-for-question-{{ctrl.question.id}}" ng-checked="ctrl.questionResponse.selectedAnswers.indexOf(answer.id) !== -1" ng-click="ctrl.toggleSelectedAnswer(answer)" ng-disabled="ctrl.readOnly">{{::ctrl.print(answer.value)}}
              </ion-checkbox>
             </div>
