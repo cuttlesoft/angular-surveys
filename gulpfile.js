@@ -11,7 +11,7 @@ gulp.task('clean', function (cb) {
 });
 
 gulp.task('build-css', ['clean'], function () {
-    return gulp.src('./styles/*')
+    return gulp.src('./styles/form-viewer.scss')
         .pipe(plugins.plumber({ errorHandler: onError }))
         .pipe(plugins.sass())
         .pipe(plugins.minifyCss())
@@ -22,23 +22,19 @@ gulp.task('build-css', ['clean'], function () {
 });
 
 gulp.task('build-tmp', ['build-css'], function () {
-    var builderStream = buildTemp('src/builder/', 'mwFormBuilder');
     var viewerStream = buildTemp('src/viewer/', 'mwFormViewer');
-    var utilsStream = buildTemp('src/utils/', 'mwFormUtils');
-    return merge(builderStream, viewerStream, utilsStream);
+    return merge(viewerStream);
+
 });
 
 gulp.task('default', ['build-tmp'], function () {
-    var i18n = gulp.src('i18n/**/*.json').pipe(plugins.jsonminify()).pipe(gulp.dest('dist/i18n/'));
-
-    var builderStream = buildModuleStream('form-builder', 'mwFormBuilder');
     var viewerStream = buildModuleStream('form-viewer', 'mwFormViewer');
-    var utilsStream = buildModuleStream('form-utils', 'mwFormUtils');
-    return merge(builderStream, viewerStream, utilsStream, i18n);
+    return merge(viewerStream);
+
 });
 
 gulp.task('watch', function() {
-    return gulp.watch(['i18n/**/*.json','./src/**/*.html', './styles/*.*css', 'src/**/*.js'], ['default']);
+    return gulp.watch(['./src/**/*.html', './styles/*.*css', 'src/**/*.js'], ['default']);
 });
 
 function buildTemp(src, moduleName) {
@@ -65,8 +61,6 @@ function buildModuleStream(destPrefix, moduleName) {
 
     var tmpDir = 'tmp/'+moduleName;
 
-    var bootstrapTemplates = buildTemplates(tmpDir+'/templates/bootstrap/', moduleName, 'dist', destPrefix+'-bootstrap');
-    var materialTemplates = buildTemplates(tmpDir+'/templates/material/', moduleName, 'dist', destPrefix+'-material');
     var ionicTemplates = buildTemplates(tmpDir+'/templates/ionic/', moduleName, 'dist', destPrefix+'-ionic');
 
     var module =  gulp.src(tmpDir + '/**/*.js')
@@ -82,10 +76,8 @@ function buildModuleStream(destPrefix, moduleName) {
             .pipe(plugins.concat(destPrefix+'.min.js'))
             .pipe(gulp.dest('dist'));
     }
+    return merge(module, ionicTemplates);
 
-
-
-    return merge(module, bootstrapTemplates, materialTemplates, ionicTemplates);
 }
 
 gulp.task('test', function (done) {
@@ -117,7 +109,6 @@ var browserSyncInit = function(baseDir){
                 "/bower_components": "bower_components",
                 "/vendor": "vendor",
                 "/dist": "dist",
-                "/i18n": "i18n"
             }
         },
         port: 8080,
@@ -127,7 +118,7 @@ var browserSyncInit = function(baseDir){
 };
 
 var gulpWatch = function(){
-    gulp.watch(['i18n/**/*.json', './src/**/*.html', './styles/*.*css', 'src/**/*.js'], ['default-watch']);
+    gulp.watch(['./src/**/*.html', './styles/*.*css', 'src/**/*.js'], ['default-watch']);
 };
 
 gulp.task('default-watch', ['default'], ()=>{ browserSync.reload() });
