@@ -67,8 +67,8 @@ function buildModuleStream(destPrefix, moduleName) {
         .pipe(plugins.plumber({ errorHandler: onError }))
         .pipe(plugins.angularFilesort())
         .pipe(plugins.ngAnnotate())
-        .pipe(plugins.concat(destPrefix+'.js'))
-        .pipe(gulp.dest('dist'));
+        // .pipe(plugins.concat(destPrefix+'.js'))
+        // .pipe(gulp.dest('dist'));
     var development = (argv.dev === undefined) ? false : true;
     if(!development){
         module.pipe(plugins.uglify())
