@@ -21,6 +21,7 @@ gulp.task('build-css', ['clean'], function () {
         .pipe(gulp.dest('./dist'));
 });
 
+// builds viewer css only
 gulp.task('build-css-viewer', ['clean'], function () {
     return gulp.src('./styles/form-viewer.scss')
         .pipe(plugins.plumber({ errorHandler: onError }))
@@ -39,6 +40,7 @@ gulp.task('build-tmp', ['build-css'], function () {
     return merge(builderStream, viewerStream, utilsStream);
 });
 
+// for viewer only
 gulp.task('build-tmp-viewer', ['build-css-viewer'], function () {
     var viewerStream = buildTemp('src/viewer/', 'mwFormViewer');
     return merge(viewerStream);
@@ -57,6 +59,7 @@ gulp.task('watch', function() {
     return gulp.watch(['i18n/**/*.json','./src/**/*.html', './styles/*.*css', 'src/**/*.js'], ['default']);
 });
 
+// for viewer only
 gulp.task('build-viewer', ['build-tmp-viewer'], function() {
     var viewerStream = buildViewerModuleStream('form-viewer', 'mwFormViewer');
     return merge(viewerStream);
@@ -110,7 +113,7 @@ function buildModuleStream(destPrefix, moduleName) {
     return merge(module, bootstrapTemplates, materialTemplates, ionicTemplates);
 }
 
-
+// for viewer only
 function buildViewerModuleStream(destPrefix, moduleName) {
 
     var tmpDir = 'tmp/'+moduleName;
