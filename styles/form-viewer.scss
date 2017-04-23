@@ -10,11 +10,12 @@
         }
 
         .mw-page-element{
-            margin-bottom: 30px;
+            margin-bottom: 20px;
 
-            .mw-question-text{
+            .mw-question-text {
                 margin-bottom: 7px;
-                font-weight: bold;
+                color: #444;
+                font-size: 16px;
             }
         }
 
@@ -91,9 +92,13 @@
     // styling for ionic material
     .mw-question-answers {
         .list, .range {
-        margin: 5px 0;
+            margin: 5px 0;
         }
-
+        .input-label {
+            width: 100%;
+            max-width: 380px;
+            white-space: normal;
+        }
         .item {
             &.item-input, &.item-radio {
             padding: 0;
@@ -109,6 +114,7 @@
         textarea {
             border: 1px solid #ccc;
             padding: 5px;
+            height: 4rem;
         }
 
         .radio-content {
@@ -126,6 +132,11 @@
 
         .range input {
             border: none;
+        }
+
+        .mw-range .item.range {
+            border-width: 0;
+            border:none;
         }
     }
 }

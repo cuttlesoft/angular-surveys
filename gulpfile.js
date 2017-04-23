@@ -21,11 +21,29 @@ gulp.task('build-css', ['clean'], function () {
         .pipe(gulp.dest('./dist'));
 });
 
+// builds viewer css only
+gulp.task('build-css-viewer', ['clean'], function () {
+    return gulp.src('./styles/form-viewer.scss')
+        .pipe(plugins.plumber({ errorHandler: onError }))
+        .pipe(plugins.sass())
+        .pipe(plugins.minifyCss())
+        .pipe(plugins.rename({
+            extname: '.min.css'
+        }))
+        .pipe(gulp.dest('./dist'));
+});
+
 gulp.task('build-tmp', ['build-css'], function () {
     var builderStream = buildTemp('src/builder/', 'mwFormBuilder');
     var viewerStream = buildTemp('src/viewer/', 'mwFormViewer');
     var utilsStream = buildTemp('src/utils/', 'mwFormUtils');
     return merge(builderStream, viewerStream, utilsStream);
+});
+
+// for viewer only
+gulp.task('build-tmp-viewer', ['build-css-viewer'], function () {
+    var viewerStream = buildTemp('src/viewer/', 'mwFormViewer');
+    return merge(viewerStream);
 });
 
 gulp.task('default', ['build-tmp'], function () {
@@ -41,6 +59,12 @@ gulp.task('watch', function() {
     return gulp.watch(['i18n/**/*.json','./src/**/*.html', './styles/*.*css', 'src/**/*.js'], ['default']);
 });
 
+// for viewer only
+gulp.task('build-viewer', ['build-tmp-viewer'], function() {
+    var viewerStream = buildViewerModuleStream('form-viewer', 'mwFormViewer');
+    return merge(viewerStream);
+});
+
 function buildTemp(src, moduleName) {
 
     var tmpDir = 'tmp/'+moduleName;
@@ -49,6 +73,7 @@ function buildTemp(src, moduleName) {
 
     return merge(copy);
 }
+
 
 function buildTemplates(src, moduleName, dest, filePrefix){
     return gulp.src(src + '**/*.html')
@@ -86,6 +111,28 @@ function buildModuleStream(destPrefix, moduleName) {
 
 
     return merge(module, bootstrapTemplates, materialTemplates, ionicTemplates);
+}
+
+// for viewer only
+function buildViewerModuleStream(destPrefix, moduleName) {
+
+    var tmpDir = 'tmp/'+moduleName;
+
+    var ionicTemplates = buildTemplates(tmpDir+'/templates/ionic/', moduleName, 'dist', destPrefix+'-ionic');
+
+    var module =  gulp.src(tmpDir + '/**/*.js')
+        .pipe(plugins.plumber({ errorHandler: onError }))
+        .pipe(plugins.angularFilesort())
+        .pipe(plugins.ngAnnotate());
+    var development = (argv.dev === undefined) ? false : true;
+    if(!development){
+        module.pipe(plugins.uglify())
+            .pipe(plugins.stripDebug())
+            .pipe(plugins.concat(destPrefix+'.min.js'))
+            .pipe(gulp.dest('dist'));
+    }
+
+    return merge(module, ionicTemplates);
 }
 
 gulp.task('test', function (done) {
